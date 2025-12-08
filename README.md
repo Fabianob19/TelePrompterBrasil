@@ -1,0 +1,89 @@
+# 🎬 TelePrompterBrasil
+
+O melhor aplicativo de teleprompter para Windows e Mac.
+
+![TelePrompterBrasil](public/icon.svg)
+
+## ✨ Funcionalidades
+
+### Versão Gratuita (Atual)
+- ✅ **Teleprompter** - Scroll automático de texto
+- ✅ **Controle de Velocidade** - Ajuste de 1x a 10x
+- ✅ **Espelhamento** - Inverte o texto horizontalmente
+- ✅ **Editor de Scripts** - Crie e edite seus roteiros
+- ✅ **Timer** - Cronômetro integrado
+- ✅ **Cue Line** - Linha de referência visual
+- ✅ **Ajuste de Fonte** - Tamanho personalizável
+- ✅ **Atalhos de Teclado** - Controle rápido
+- ✅ **Importar/Exportar** - Arquivos .txt
+
+### Atalhos de Teclado
+
+| Tecla | Ação |
+|-------|------|
+| `Espaço` | Play/Pause |
+| `↑` | Aumentar velocidade |
+| `↓` | Diminuir velocidade |
+| `R` | Resetar posição |
+| `M` | Espelhar texto |
+| `E` | Modo edição |
+
+## 🚀 Instalação
+
+### Pré-requisitos
+- Node.js 18+ 
+- npm ou yarn
+
+### Desenvolvimento
+
+```bash
+# Instalar dependências
+npm install
+
+# Rodar em modo desenvolvimento
+npm run dev
+```
+
+### Build
+
+```bash
+# Build para Windows
+npm run build:win
+
+# Build para Mac
+npm run build:mac
+```
+
+## 🛠️ Tecnologias
+
+- **Electron** - App desktop nativo
+- **React 18** - Interface do usuário
+- **TypeScript** - Tipagem estática
+- **Vite** - Build tool ultrarrápido
+- **Framer Motion** - Animações suaves
+- **Zustand** - Gerenciamento de estado
+
+## 📁 Estrutura do Projeto
+
+```
+tele/
+├── electron/           # Código Electron (main process)
+│   ├── main.ts
+│   └── preload.ts
+├── src/                # Código React (renderer)
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── public/             # Assets estáticos
+├── package.json
+└── vite.config.ts
+```
+
+## 📝 Licença
+
+MIT © TelePrompterBrasil
+
+---
+
+Feito com ❤️ no Brasil
+
