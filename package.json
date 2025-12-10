@@ -1,6 +1,6 @@
 {
   "name": "teleprompter-brasil",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "TelePrompterBrasil - O melhor teleprompter para Windows e Mac",
   "main": "dist-electron/main.js",
   "author": "TelePrompterBrasil",
@@ -15,11 +15,12 @@
     "start": "electron ."
   },
   "dependencies": {
+    "framer-motion": "^10.16.16",
+    "lucide-react": "^0.303.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zustand": "^4.4.7",
-    "framer-motion": "^10.16.16",
-    "lucide-react": "^0.303.0"
+    "react-router-dom": "^7.10.1",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.45",
@@ -40,11 +41,15 @@
       "output": "release"
     },
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "public/icon.ico"
     },
     "mac": {
-      "target": ["dmg"],
+      "target": [
+        "dmg"
+      ],
       "icon": "public/icon.icns"
     },
     "nsis": {
@@ -53,4 +58,3 @@
     }
   }
 }
-

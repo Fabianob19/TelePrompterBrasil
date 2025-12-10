@@ -10,42 +10,42 @@
   --bg-tertiary: #161616;
   --bg-elevated: #1c1c1e;
   --bg-card: #1c1c1e;
-  
+
   /* Accent - Verde Esmeralda do Teleprompter Pro */
   --accent-primary: #30d158;
   --accent-secondary: #32d74b;
   --accent-tertiary: #28cd41;
   --accent-glow: rgba(48, 209, 88, 0.25);
   --accent-soft: rgba(48, 209, 88, 0.1);
-  
+
   /* Texto */
   --text-primary: #ffffff;
   --text-secondary: #98989d;
   --text-tertiary: #636366;
   --text-quaternary: #48484a;
-  
+
   /* Bordas */
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-default: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.12);
-  
+
   /* Status */
   --color-red: #ff453a;
   --color-orange: #ff9f0a;
   --color-yellow: #ffd60a;
   --color-blue: #0a84ff;
-  
+
   /* Sombras */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.6);
   --shadow-lg: 0 10px 50px rgba(0, 0, 0, 0.8);
   --shadow-glow: 0 0 60px var(--accent-glow);
   --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  
+
   /* Tipografia - Similar ao Apple/Teleprompter Pro */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Consolas', 'Monaco', 'Fira Code', monospace;
-  
+
   /* Espaçamento */
   --space-1: 4px;
   --space-2: 8px;
@@ -57,14 +57,14 @@
   --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
-  
+
   /* Border radius */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-xl: 20px;
   --radius-full: 9999px;
-  
+
   /* Transições suaves */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
@@ -74,13 +74,17 @@
 }
 
 /* Reset */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -441,7 +445,7 @@ body {
   flex: 1;
   height: 2px;
   background: var(--accent-primary);
-  box-shadow: 
+  box-shadow:
     0 0 10px var(--accent-primary),
     0 0 30px var(--accent-glow),
     0 0 60px var(--accent-glow);
@@ -449,8 +453,15 @@ body {
 }
 
 @keyframes cue-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .cue-arrow {
@@ -483,24 +494,20 @@ body {
 
 .prompter-fade.top {
   top: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--bg-secondary) 0%,
-    rgba(13, 13, 13, 0.9) 30%,
-    rgba(13, 13, 13, 0.5) 60%,
-    transparent 100%
-  );
+  background: linear-gradient(to bottom,
+      var(--bg-secondary) 0%,
+      rgba(13, 13, 13, 0.9) 30%,
+      rgba(13, 13, 13, 0.5) 60%,
+      transparent 100%);
 }
 
 .prompter-fade.bottom {
   bottom: 0;
-  background: linear-gradient(
-    to top,
-    var(--bg-secondary) 0%,
-    rgba(13, 13, 13, 0.9) 30%,
-    rgba(13, 13, 13, 0.5) 60%,
-    transparent 100%
-  );
+  background: linear-gradient(to top,
+      var(--bg-secondary) 0%,
+      rgba(13, 13, 13, 0.9) 30%,
+      rgba(13, 13, 13, 0.5) 60%,
+      transparent 100%);
 }
 
 /* Progress Bar */
@@ -593,7 +600,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: all var(--duration-fast) var(--ease-out);
-  box-shadow: 
+  box-shadow:
     var(--shadow-md),
     0 0 30px var(--accent-glow);
   position: relative;
@@ -612,7 +619,7 @@ body {
 
 .play-button:hover {
   transform: scale(1.08);
-  box-shadow: 
+  box-shadow:
     var(--shadow-lg),
     0 0 50px var(--accent-glow);
 }
@@ -623,7 +630,7 @@ body {
 
 .play-button.playing {
   background: var(--bg-elevated);
-  box-shadow: 
+  box-shadow:
     var(--shadow-md),
     inset 0 0 0 2px var(--accent-primary);
 }
@@ -761,25 +768,6 @@ body {
 /* ========================================
    Editor Mode
    ======================================== */
-.editor-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: var(--space-5);
-  gap: var(--space-4);
-  background: var(--bg-primary);
-}
-
-.editor-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-3) var(--space-4);
-  background: var(--bg-secondary);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
-}
-
 .editor-title {
   display: flex;
   align-items: center;
@@ -825,16 +813,14 @@ body {
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-.editor-textarea::placeholder {
-  color: var(--text-quaternary);
-}
-
-/* Character count */
 .editor-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 var(--space-2);
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
 }
 
 .char-count {
@@ -857,7 +843,18 @@ body {
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-out);
   border: none;
+  border: none;
   outline: none;
+}
+
+.btn:focus,
+.control-btn:focus,
+.play-button:focus,
+.btn:focus-visible,
+.control-btn:focus-visible,
+.play-button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .btn-primary {
@@ -1076,27 +1073,34 @@ body {
    Animations
    ======================================== */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  to { 
+
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 @keyframes scaleIn {
-  from { 
+  from {
     opacity: 0;
     transform: scale(0.95);
   }
-  to { 
+
+  to {
     opacity: 1;
     transform: scale(1);
   }
@@ -1143,7 +1147,7 @@ body {
   .sidebar {
     width: 220px;
   }
-  
+
   .prompter-text {
     font-size: 40px;
   }
@@ -1158,15 +1162,15 @@ body {
     z-index: 50;
     transform: translateX(-100%);
   }
-  
+
   .sidebar.open {
     transform: translateX(0);
   }
-  
+
   .prompter-text {
     font-size: 32px;
   }
-  
+
   .controls-bar {
     flex-wrap: wrap;
     padding: var(--space-3);
@@ -1182,8 +1186,8 @@ body {
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
   background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
   flex-wrap: wrap;
 }
 
@@ -1191,11 +1195,12 @@ body {
   display: flex;
   align-items: center;
   gap: 2px;
+  position: relative;
 }
 
 .toolbar-divider {
   width: 1px;
-  height: 24px;
+  height: 20px;
   background: var(--border-default);
   margin: 0 var(--space-1);
 }
@@ -1262,14 +1267,14 @@ body {
 .color-btn {
   width: 24px;
   height: 24px;
-  border-radius: var(--radius-sm);
-  border: 2px solid transparent;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition: transform 0.1s;
 }
 
 .color-btn:hover {
-  transform: scale(1.15);
+  transform: scale(1.1);
   border-color: white;
 }
 
@@ -1294,17 +1299,67 @@ body {
 }
 
 /* ========================================
-   Rich Editor - ContentEditable
+   Rich Editor - Cinema Mode (Editor 2.0)
    ======================================== */
-.rich-editor {
-  overflow-y: auto;
-  min-height: 200px;
-  cursor: text;
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: #000000;
+  /* Cinema Black */
 }
 
+/* Header e Footer fixos */
+.editor-header,
+.editor-footer,
+.formatting-toolbar {
+  flex-shrink: 0;
+  border-bottom: 1px solid #222;
+  /* Divisórias sutis */
+}
+
+/* Área de trabalho (fundo escuro onde a página flutua) */
+.editor-workspace {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-8) 0;
+  display: flex;
+  justify-content: center;
+  /* Scrollbar estilizadíssimo */
+  scrollbar-gutter: stable;
+}
+
+/* A "Folha" do roteiro */
+.editor-page-container {
+  width: 100%;
+  max-width: 700px;
+  /* Largura padrão de leitura TV/Cinema */
+  min-height: 100%;
+  padding: 0 var(--space-4);
+}
+
+.rich-editor {
+  min-height: 50vh;
+  color: #E2E2E2;
+  /* Branco levemente off-white para cansar menos */
+  font-family: 'Courier New', Courier, monospace;
+  /* Script feel */
+  font-size: 22px;
+  /* Tamanho generoso para leitura */
+  line-height: 1.6;
+  outline: none;
+  border: none;
+  white-space: pre-wrap;
+  caret-color: var(--accent-primary);
+  /* Cursor verde */
+}
+
+/* Placeholder discreto */
 .rich-editor:empty::before {
   content: attr(data-placeholder);
-  color: var(--text-quaternary);
+  color: #444;
+  font-style: italic;
   pointer-events: none;
 }
 
@@ -1327,29 +1382,7 @@ body {
   text-decoration: underline;
 }
 
-/* Cue Point - Marcador visual no teleprompter */
-.cue-point-marker {
-  display: inline-block;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
-  color: white;
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  font-weight: 600;
-  font-size: 0.5em;
-  margin: 8px 12px;
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-out);
-  box-shadow: 0 0 15px var(--accent-glow), 0 2px 8px rgba(0,0,0,0.3);
-  vertical-align: middle;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  pointer-events: auto;
-}
-
-.cue-point-marker:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px var(--accent-glow), 0 4px 12px rgba(0,0,0,0.4);
-}
+/* Estilo removido em favor de inline styles no componente */
 
 /* Badge de navegação de Cue Points na barra de controle */
 .cue-indicator-badge {

@@ -1,8 +1,9 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog, screen } from 'electron'
 import path from 'path'
 import fs from 'fs'
 
 let mainWindow: BrowserWindow | null = null
+let externalWindow: BrowserWindow | null = null
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -32,6 +33,50 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+    // Se fechar a principal, fecha a externa também
+    if (externalWindow) {
+      externalWindow.close()
+      externalWindow = null
+    }
+  })
+}
+
+function createExternalWindow() {
+  if (externalWindow) {
+    externalWindow.focus()
+    return
+  }
+
+  const displays = screen.getAllDisplays()
+  // Tenta pegar o segundo monitor, senão pega o principal
+  const externalDisplay = displays.length > 1 ? displays[1] : displays[0]
+
+  externalWindow = new BrowserWindow({
+    x: externalDisplay.bounds.x,
+    y: externalDisplay.bounds.y,
+    width: 1280,
+    height: 720,
+    frame: false, // Sem bordas
+    fullscreen: true, // Tela cheia
+    backgroundColor: '#000000', // Fundo preto
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
+    },
+    icon: path.join(__dirname, '../public/icon.png')
+  })
+
+  const url = process.env.NODE_ENV === 'development' || !app.isPackaged
+    ? 'http://localhost:5173/#/external'
+    : `file://${path.join(__dirname, '../dist/index.html')}#/external`
+
+  externalWindow.loadURL(url)
+
+  externalWindow.on('closed', () => {
+    externalWindow = null
+    // Notificar janela principal que fechou?
+    mainWindow?.webContents.send('external-window-closed')
   })
 }
 
@@ -84,6 +129,24 @@ ipcMain.handle('open-file', async () => {
     return { success: true, content, path: result.filePaths[0] }
   }
   return { success: false }
+})
+
+
+
+// === External Window IPC ===
+ipcMain.on('create-external-window', () => {
+  createExternalWindow()
+})
+
+ipcMain.on('close-external-window', () => {
+  externalWindow?.close()
+})
+
+// Sync State: Recebe do MainRenderer e envia para ExternalRenderer
+ipcMain.on('sync-state', (_, state) => {
+  if (externalWindow && !externalWindow.isDestroyed()) {
+    externalWindow.webContents.send('sync-state', state)
+  }
 })
 
 app.whenReady().then(createWindow)
