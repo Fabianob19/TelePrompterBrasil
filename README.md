@@ -6,16 +6,21 @@ O melhor aplicativo de teleprompter para Windows e Mac.
 
 ## ✨ Funcionalidades
 
-### Versão Gratuita (Atual)
-- ✅ **Teleprompter** - Scroll automático de texto
+### Versão 1.1.0 (Novidades!)
+- ✅ **Janela Externa (HDMI)** - Suporte nativo a múltiplos monitores
+- ✅ **Editor "Cinema Mode"** - Fundo escuro, Largura Real e Smart Caps
+- ✅ **Auto-Save** - Salvamento automático e invisível
+- ✅ **Cue Points Visual** - Navegação rápida entre seções
+
+### Funcionalidades Principais
+- ✅ **Teleprompter** - Scroll automático ultra-fluido
 - ✅ **Controle de Velocidade** - Ajuste de 1x a 10x
 - ✅ **Espelhamento** - Inverte o texto horizontalmente
-- ✅ **Editor de Scripts** - Crie e edite seus roteiros
 - ✅ **Timer** - Cronômetro integrado
 - ✅ **Cue Line** - Linha de referência visual
 - ✅ **Ajuste de Fonte** - Tamanho personalizável
 - ✅ **Atalhos de Teclado** - Controle rápido
-- ✅ **Importar/Exportar** - Arquivos .txt
+- ✅ **Importar/Exportar** - Arquivos .txt / .html
 
 ### Atalhos de Teclado
 
