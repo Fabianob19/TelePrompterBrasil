@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 import { Script, AppSettings, PlaybackState } from '../types'
 
 interface AppState {
@@ -87,76 +88,96 @@ const DEFAULT_SETTINGS: AppSettings = {
     cueColor: '#30d158',
     cueOpacity: 100,
     cueThickness: 2,
-    sidebarCollapsed: false
+    sidebarCollapsed: false,
+    alwaysOnTop: false
 }
 
-export const useAppStore = create<AppState>((set) => ({
-    // Initial State
-    scripts: [DEFAULT_SCRIPT],
-    activeScriptId: '1',
+export const useAppStore = create<AppState>()(
+    persist(
+        (set) => ({
+            // Initial State
+            scripts: [DEFAULT_SCRIPT],
+            activeScriptId: '1',
 
-    settings: DEFAULT_SETTINGS,
+            settings: DEFAULT_SETTINGS,
 
-    playback: {
-        isPlaying: false,
-        speed: 2,
-        scrollPosition: 0,
-        elapsedTime: 0
-    },
+            playback: {
+                isPlaying: false,
+                speed: 2,
+                scrollPosition: 0,
+                elapsedTime: 0,
+                textHeight: 0,
+                containerHeight: 0,
+                timedMode: false,
+                targetDuration: 180 // 3 minutos padrão
+            },
 
-    // Actions
-    addScript: () => set((state) => {
-        const newScript: Script = {
-            id: Date.now().toString(),
-            name: `Script ${state.scripts.length + 1}`,
-            content: '',
-            createdAt: new Date()
+            // Actions
+            addScript: () => set((state) => {
+                const newScript: Script = {
+                    id: Date.now().toString(),
+                    name: `Script ${state.scripts.length + 1}`,
+                    content: '',
+                    createdAt: new Date()
+                }
+                return {
+                    scripts: [...state.scripts, newScript],
+                    activeScriptId: newScript.id
+                }
+            }),
+
+            deleteScript: (id) => set((state) => {
+                if (state.scripts.length <= 1) return state
+
+                const newScripts = state.scripts.filter(s => s.id !== id)
+                let newActiveId = state.activeScriptId
+
+                if (state.activeScriptId === id) {
+                    newActiveId = newScripts[0].id
+                }
+
+                return { scripts: newScripts, activeScriptId: newActiveId }
+            }),
+
+            updateScript: (id, updates) => set((state) => ({
+                scripts: state.scripts.map(s => s.id === id ? { ...s, ...updates } : s)
+            })),
+
+            setActiveScriptId: (id) => set({ activeScriptId: id }),
+
+            updateSettings: (updates) => set((state) => ({
+                settings: { ...state.settings, ...updates }
+            })),
+
+            updatePlayback: (updates) => set((state) => ({
+                playback: { ...state.playback, ...updates }
+            })),
+
+            togglePlay: () => set((state) => ({
+                playback: { ...state.playback, isPlaying: !state.playback.isPlaying }
+            })),
+
+            resetPlayback: () => set((state) => ({
+                playback: { ...state.playback, isPlaying: false, scrollPosition: 0, elapsedTime: 0 }
+            })),
+
+            triggerCueAction: (type) => set((state) => ({
+                playback: {
+                    ...state.playback,
+                    cueAction: { type, id: Date.now() }
+                }
+            }))
+        }),
+        {
+            name: 'teleprompter-brasil-storage',
+            storage: createJSONStorage(() => localStorage),
+            partialize: (state) => ({
+                scripts: state.scripts,
+                activeScriptId: state.activeScriptId,
+                settings: state.settings
+                // playback NÃO é persistido - sempre começa parado
+            })
         }
-        return {
-            scripts: [...state.scripts, newScript],
-            activeScriptId: newScript.id
-        }
-    }),
+    )
+)
 
-    deleteScript: (id) => set((state) => {
-        if (state.scripts.length <= 1) return state
-
-        const newScripts = state.scripts.filter(s => s.id !== id)
-        let newActiveId = state.activeScriptId
-
-        if (state.activeScriptId === id) {
-            newActiveId = newScripts[0].id
-        }
-
-        return { scripts: newScripts, activeScriptId: newActiveId }
-    }),
-
-    updateScript: (id, updates) => set((state) => ({
-        scripts: state.scripts.map(s => s.id === id ? { ...s, ...updates } : s)
-    })),
-
-    setActiveScriptId: (id) => set({ activeScriptId: id }),
-
-    updateSettings: (updates) => set((state) => ({
-        settings: { ...state.settings, ...updates }
-    })),
-
-    updatePlayback: (updates) => set((state) => ({
-        playback: { ...state.playback, ...updates }
-    })),
-
-    togglePlay: () => set((state) => ({
-        playback: { ...state.playback, isPlaying: !state.playback.isPlaying }
-    })),
-
-    resetPlayback: () => set((state) => ({
-        playback: { ...state.playback, isPlaying: false, scrollPosition: 0, elapsedTime: 0 }
-    })),
-
-    triggerCueAction: (type) => set((state) => ({
-        playback: {
-            ...state.playback,
-            cueAction: { type, id: Date.now() }
-        }
-    }))
-}))

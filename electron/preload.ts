@@ -22,7 +22,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     const subscription = (_: any, state: any) => callback(state)
     ipcRenderer.on('sync-state', subscription)
     return () => ipcRenderer.removeListener('sync-state', subscription)
-  }
+  },
+
+  // Always on Top
+  setAlwaysOnTop: (value: boolean) => ipcRenderer.send('set-always-on-top', value)
 })
 
 // Tipos para TypeScript
@@ -40,6 +43,7 @@ declare global {
       closeExternalWindow: () => void
       sendSyncState: (state: any) => void
       onSyncState: (callback: (state: any) => void) => () => void
+      setAlwaysOnTop: (value: boolean) => void
     }
   }
 }

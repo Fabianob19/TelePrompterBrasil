@@ -30,6 +30,9 @@ export interface AppSettings {
 
   // Sidebar
   sidebarCollapsed: boolean
+
+  // Window
+  alwaysOnTop: boolean
 }
 
 export interface PlaybackState {
@@ -38,4 +41,11 @@ export interface PlaybackState {
   scrollPosition: number
   elapsedTime: number
   cueAction?: { type: 'next' | 'prev', id: number }
+  // Layout metrics for remaining time calculation
+  textHeight: number
+  containerHeight: number
+  // Timed scrolling mode
+  timedMode: boolean
+  targetDuration: number // seconds
 }
+

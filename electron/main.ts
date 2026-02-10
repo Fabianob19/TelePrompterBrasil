@@ -97,6 +97,11 @@ ipcMain.on('window-close', () => {
   mainWindow?.close()
 })
 
+// Always on Top
+ipcMain.on('set-always-on-top', (_, value: boolean) => {
+  mainWindow?.setAlwaysOnTop(value)
+})
+
 // Salvar arquivo
 ipcMain.handle('save-file', async (_, content: string, defaultName: string) => {
   const result = await dialog.showSaveDialog(mainWindow!, {

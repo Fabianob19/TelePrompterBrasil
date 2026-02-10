@@ -33,13 +33,30 @@ export function TeleprompterDisplay({ isExternal = false }: TeleprompterDisplayP
     // 1. Measure layout when content changes
     useEffect(() => {
         const measure = () => {
-            if (containerRef.current) setContainerHeight(containerRef.current.clientHeight)
-            if (textRef.current) setTextHeight(textRef.current.scrollHeight)
+            let newContainerHeight = 0
+            let newTextHeight = 0
+
+            if (containerRef.current) {
+                newContainerHeight = containerRef.current.clientHeight
+                setContainerHeight(newContainerHeight)
+            }
+            if (textRef.current) {
+                newTextHeight = textRef.current.scrollHeight
+                setTextHeight(newTextHeight)
+            }
+
+            // Sync to store for remaining time calculation (only on master)
+            if (!isExternal && (newTextHeight > 0 || newContainerHeight > 0)) {
+                updatePlayback({
+                    textHeight: newTextHeight,
+                    containerHeight: newContainerHeight
+                })
+            }
         }
         measure()
         window.addEventListener('resize', measure)
         return () => window.removeEventListener('resize', measure)
-    }, [activeScript?.content, settings.fontSize])
+    }, [activeScript?.content, settings.fontSize, isExternal, updatePlayback])
 
     // Listener for Cue Navigation
     useEffect(() => {

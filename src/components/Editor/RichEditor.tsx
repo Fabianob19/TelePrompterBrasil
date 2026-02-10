@@ -16,10 +16,8 @@ export function RichEditor({ onClose }: RichEditorProps) {
     // Local state
     const [editName, setEditName] = useState(activeScript?.name || '')
     const [editContent, setEditContent] = useState(activeScript?.content || '')
-    const [saveStatus, setSaveStatus] = useState<string>('Salvo')
-    const [lastSaved, setLastSaved] = useState<Date | null>(null)
+    const [isDirty, setIsDirty] = useState(false)
     const editorRef = useRef<HTMLDivElement>(null)
-    const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
     // Sync when active script changes (Initial Load)
     useLayoutEffect(() => {
@@ -34,41 +32,33 @@ export function RichEditor({ onClose }: RichEditorProps) {
         }
     }, [activeScript, activeScriptId])
 
-    // Auto-Save Logic (Debounced)
+    // Detectar mudanças (isDirty)
     useEffect(() => {
-        // Ignorar carga inicial sem ID
-        if (!activeScriptId) return
-
-        setSaveStatus('Editando...')
-
-        if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current)
-
-        saveTimeoutRef.current = setTimeout(() => {
-            updateScript(activeScriptId, {
-                name: editName,
-                content: editContent
-            })
-            setSaveStatus('Salvo automático')
-            setLastSaved(new Date())
-        }, 2000) // 2 segundos de inatividade
-
-        return () => {
-            if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current)
-        }
-    }, [editName, editContent, activeScriptId, updateScript])
+        if (!activeScript) return
+        const hasChanges = editName !== activeScript.name || editContent !== activeScript.content
+        setIsDirty(hasChanges)
+    }, [editName, editContent, activeScript])
 
     // Count Cue Points
     const cuePointCount = (editContent.match(/>>>|&gt;&gt;&gt;/g) || []).length
 
-    // Manual Save
+    // Salvar e Visualizar
     const handleSave = () => {
         if (activeScriptId) {
             updateScript(activeScriptId, {
                 name: editName,
                 content: editContent
             })
-            setSaveStatus('Salvo')
-            setLastSaved(new Date())
+            setIsDirty(false)
+        }
+        onClose()
+    }
+
+    // Cancelar com confirmação se houver alterações
+    const handleCancel = () => {
+        if (isDirty) {
+            const confirmDiscard = window.confirm('Você tem alterações não salvas. Deseja descartar?')
+            if (!confirmDiscard) return
         }
         onClose()
     }
@@ -152,12 +142,12 @@ export function RichEditor({ onClose }: RichEditorProps) {
                         <Save size={14} />
                         Exportar
                     </button>
-                    <button className="btn btn-ghost" onClick={onClose}>
+                    <button className="btn btn-ghost" onClick={handleCancel}>
                         Cancelar
                     </button>
                     <button className="btn btn-primary" onClick={handleSave}>
                         <Eye size={14} />
-                        Visualizar
+                        Salvar e Visualizar
                     </button>
                 </div>
             </div>
@@ -198,8 +188,12 @@ export function RichEditor({ onClose }: RichEditorProps) {
                 </span>
 
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>
-                        {saveStatus} {lastSaved && `às ${lastSaved.toLocaleTimeString()}`}
+                    <span style={{
+                        fontSize: '12px',
+                        fontWeight: 500,
+                        color: isDirty ? '#ff453a' : '#30d158'
+                    }}>
+                        {isDirty ? '● Alterações não salvas' : '✓ Salvo'}
                     </span>
                     {cuePointCount > 0 && (
                         <span className="cue-count-footer">

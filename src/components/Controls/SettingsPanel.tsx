@@ -62,8 +62,27 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
 
                             {/* External Display Section */}
                             <div className="settings-section">
-                                <div className="settings-section-title">Tela Externa</div>
-                                <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
+                                <div className="settings-section-title">Janela</div>
+
+                                <div className="settings-row">
+                                    <span className="settings-label">Sempre no topo</span>
+                                    <div
+                                        className={`toggle ${settings.alwaysOnTop ? 'active' : ''}`}
+                                        onClick={() => {
+                                            const newValue = !settings.alwaysOnTop
+                                            updateSettings({ alwaysOnTop: newValue })
+                                            // Type cast needed because electron types are defined in electron/preload.ts
+                                            const electronAPI = (window as any).electronAPI
+                                            if (electronAPI?.setAlwaysOnTop) {
+                                                electronAPI.setAlwaysOnTop(newValue)
+                                            }
+                                        }}
+                                    >
+                                        <div className="toggle-knob" />
+                                    </div>
+                                </div>
+
+                                <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'stretch', marginTop: 8 }}>
                                     <button
                                         className="btn btn-primary"
                                         onClick={() => window.electronAPI.createExternalWindow()}
